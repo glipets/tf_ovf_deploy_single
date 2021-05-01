@@ -1,5 +1,5 @@
-resource "vsphere_virtual_machine" "gw2" {
-  name             = var.names[0]
+resource "vsphere_virtual_machine" "gw" {
+  name             = var.names[count.index]
   folder         = var.folder
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id = data.vsphere_datastore.datastore0.id
@@ -41,18 +41,19 @@ resource "vsphere_virtual_machine" "gw2" {
   }
   vapp {
     properties = {
-     "hostname" = "GW-TF",
-     "password_type" = "Plain",
-     "admin_hash" = "vpn123",
-     "ipaddr_v4" = "172.25.62.17",
-     "masklen_v4" = "24",
-     "default_gw_v4" = "172.25.62.240",
-     "eth1_ipaddr_v4": "172.25.1.1",
-     "eth1_masklen_v4": "24",
-     "primary": "8.8.8.8",
-     "ftw_sic_key" = "vpn123",
-     "is_gateway_cluster_member" = "Yes",
-     "clish_commands" = "set user admin shell /bin/bash"
+     "hostname" = var.hostname[count.index],
+     "password_type" = var.password_type,
+     "admin_hash" = var.admin_hash,
+     "ipaddr_v4" = var.ipaddr_v4[count.index],
+     "masklen_v4" = var.masklen_v4[count.index],
+     "default_gw_v4" = var.default_gw_v4[count.index],
+     "eth1_ipaddr_v4": var.eth1_ipaddr_v4[count.index],
+     "eth1_masklen_v4": var.eth1_masklen_v4[count.index],
+     "primary": var.primary[count.index],
+     "ftw_sic_key" = var.ftw_sic_key,
+     "is_gateway_cluster_member" = var.is_gateway_cluster_member[count.index],
+     "clish_commands" = var.clish_commands
   }
 }
+count =2
 }

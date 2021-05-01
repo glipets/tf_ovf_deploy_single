@@ -58,6 +58,6 @@ data "vsphere_network" "network4" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 data "vsphere_host" "host" {
-  name = "172.25.29.6"
+  name = var.host
   datacenter_id = data.vsphere_datacenter.dc.id
   }
